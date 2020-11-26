@@ -84,11 +84,11 @@
 
 
 <main class="grid">
-     {% for Zespoly in post %}
+     {% for Galeria in post %}
 
-{{Zespoly.kategorie}}
+{{Galeria.kategorie}}
 
-<a href="{% url 'fotopage' slug=Zespoly.slug %}" ><img src="{{Zespoly.zdjecie.url}}" method="get" alt="Tekst alternatywny" width= "x" height="y"></a>
+<a href="{% url 'fotopage' slug=Galeria.slug %}" ><img src="{{Galeria.zdjecie.url}}" method="get" alt="Tekst alternatywny" width= "x" height="y"></a>
 
 {% endfor %}
 
