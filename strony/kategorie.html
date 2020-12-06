@@ -30,7 +30,7 @@
 <body>
 
 <nav  class="navbar navbar-expand-lg navbar-light "style="background-color: black;position: fixed; top: 0; width: 100%; z-index: 100;">
-  <a class="navbar-brand" href="#" style=" margin-left: 10%; font-family: 'Oswald', sans-serif; font-size: 150%; font-weight:700; font-weight:bold; color: white;" >Marcin Bera</a>
+  <a class="navbar-brand" href="#" style=" margin-left: 8%; font-family: 'Oswald', sans-serif; font-size: 150%; font-weight:700; font-weight:bold; color: white;" >Marcin Bera</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -39,17 +39,18 @@
       <li class="nav-item active">
         <a class="nav-link" href="#"style="color: white;font-family: 'Oswald'; font-weight:300; ">Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'kategorie' %}" style="color: white;font-family: 'Oswald'; font-weight:300; ">Kategorie</a>
-      </li>
+
       <li class="nav-item">
         <a class="nav-link" href="#"style="color: white;font-family: 'Oswald'; font-weight:300; ">O mnie</a>
       </li>
 
-<form action="{% url 'searchbar' %}" method="get" class="form-inline" >
+        <form action="{% url 'searchbar' %}" method="get" class="form-inline" >
   <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
-    aria-label="Search" type="text" name="search">
+    aria-label="Search" type="text" name="q" value="{{ request.GET.q }}">
 </form>
+
+
+
 
 
     </ul>
@@ -60,9 +61,9 @@
 
 
  <div  id="header" class="bg" style="background-image: url({% static 'tlo.jpg' %})"><br><br><br><br><br><br>
-      <p class="text-block" style="white;font-family: 'Oswald'; font-weight:300;">{{ post.count }}: Photos</p>
+      <p class="text-block" style="white;font-family: 'Oswald'; font-weight:300;">{{ story.count }}: Photos</p>
      <img class="profilowe" src="{% static 'profilowe.jpg' %}" width="10%"  >
-     <p class="nazwa"> Galeria  </p>
+     <p class="nazwa"> Marcin Bera  </p>
  </div>
 
 
@@ -75,19 +76,14 @@
 
 
 <nav id="nav2" class=" navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#"style=" margin-left:5%;">Navbar</a>
+  <a class="navbar-brand" href="#"style=" margin-left:5%;"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li >
-        <a class="nav-link" href="#" style="color: black;font-family: 'Oswald', sans-serif; font-weight:300; font-size: 120%;">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item" >
-        <a class="nav-link" href="#" style="color: black;font-family: 'Oswald', sans-serif; font-weight:300; font-size: 120%;">Link</a>
-      </li>
+
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"  style="color: black;font-family: 'Oswald', sans-serif; font-weight:300; font-size: 120%;">
           Kategorie
@@ -114,6 +110,18 @@
 
 
 
+<div>
+
+    {% for x in story %}
+
+   <a href="{{ x.get_absolute_url }}"> <img src="{{x.zdjecie.url}}" alt="Tekst alternatywny" width= "20%" height="y"></a>
+    {% endfor %}
+
+
+</div>
+
+
+
 
 </main>
 
@@ -124,19 +132,7 @@
 
 
 
-<div class="container">
 
-<br>
-<div>
-    <h1>{% if category %}{{ category.name }}{% else %} STORIES {% endif %}</h1>
-    {% for x in story %}
-     <h3> <a href="{{ x.get_absolute_url }}">{{x.nazwa}}</a></h3><hr>
-    <img src="{{x.zdjecie.url}}" alt="Tekst alternatywny" width= "20%" height="y">
-    {% endfor %}
-
-
-</div>
-</div>
 
 
 

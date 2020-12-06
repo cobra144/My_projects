@@ -256,8 +256,8 @@ font-family: 'Montserrat', sans-serif;
 }
 
 
-nav{
-background:white
+.navbar-collapse{
+background: white;
 }
 
 
