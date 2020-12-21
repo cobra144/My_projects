@@ -256,12 +256,6 @@ font-family: 'Montserrat', sans-serif;
 }
 
 
-.navbar-collapse{
-background: white;
-}
-
-
-
 .fixed{
     position: fixed;
     width:100%;
@@ -273,4 +267,29 @@ background: white;
 
 .nav-link{
 font-family: 'Oswald',font-weight:300;  sans-serif!important;
+}
+
+
+
+
+
+.center
+{
+position: relative;
+width:1000px;
+margin:0 auto 0 auto;
+padding:5px;
+
+height:400px;
+}
+
+.tabelka
+{
+position: absolute;
+top: 70%;
+left: 80%;
+width:150px;
+padding:5px;
+
+
 }

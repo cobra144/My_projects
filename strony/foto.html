@@ -94,13 +94,51 @@
 <center>
 <a href="{{post.zdjecie.url}}" target="_blank"><img src="{{post.zdjecie.url}}" method="get" alt="Tekst alternatywny" width= "50%" >
 </a>
-    {{post.camera}}
-    <br>
-    <p>{{post.Xres}} x {{post.Yres}}</p>
+
+<div class="tabelka">
 
 
+
+    <table width="auto" >
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
+    <td nowrap="nowrap"><img  src="{% static 'resolution.png' %}" width="50%"  ></td>
+    <td nowrap="nowrap">{{post.Xres}} x {{post.Yres}}</td>
+  </tr>
+  <tr>
+   <td nowrap="nowrap"><img  src="{% static 'camera.png' %}" width="50%"  ></td>
+    <td nowrap="nowrap">{{post.firma}} <p> </p> {{post.camera}}</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap"><img  src="{% static 'przesl.png' %}" width="50%"  ></td>
+    <td nowrap="nowrap">{{post.Fnum}}</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap"><img  src="{% static 'ogniskowa.png' %}" width="50%"  ></td>
+    <td nowrap="nowrap">{{post.ogniskowa}}</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap"><img  src="{% static 'ekspozycja.png' %}" width="50%"  ></td>
+    <td nowrap="nowrap">{{post.ekspozycja}}</td>
+  </tr>
+  <tr>
+    <td nowrap="nowrap"><img  src="{% static 'data.png' %}" width="50%"  ></td>
+    <td nowrap="nowrap">{{kiedy|slice:":10"}}</td>
+  </tr>
+
+</table>
 
 </center>
+</div>
+
+
+
+
+
+
 <script>
 window.onscroll = function() {myFunction()};
 var header = document.getElementById("nav2");
