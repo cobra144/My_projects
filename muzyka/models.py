@@ -55,6 +55,10 @@ class Galeria(models.Model):
         editable=False,
         max_length=100,
     )
+    iso = models.CharField(
+        editable=False,
+        max_length=100,
+    )
 
     exif = ExifField(
         source='zdjecie',
@@ -67,6 +71,7 @@ class Galeria(models.Model):
             'ekspozycja': exifgetter('ExposureTime'),
             'firma': exifgetter('Manufacturer'),
             'data': exifgetter('DateTimeOriginal'),
+            'iso': exifgetter('ISO'),
 
 
 

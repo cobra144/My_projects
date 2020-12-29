@@ -5,7 +5,7 @@ from . import views
 
 
 urlpatterns = [
-                  #path('', views.story_list, name='story_list'),
+                  path('', views.post_list, name='searchbar'),
                   path('powitanie/', views.metadane, name="pierwsza"),
                   path('searchbar/',views.post_list, name="searchbar"),
                   path('foto/<slug:slug>', views.fotopage, name="fotopage"),

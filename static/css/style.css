@@ -273,23 +273,38 @@ font-family: 'Oswald',font-weight:300;  sans-serif!important;
 
 
 
-.center
+.zdjecie
 {
 position: relative;
-width:1000px;
-margin:0 auto 0 auto;
-padding:5px;
-
-height:400px;
 }
 
 .tabelka
 {
-position: absolute;
-top: 70%;
-left: 80%;
+position:absolute;
+top: 130%;
+right: 35%;
 width:150px;
 padding:5px;
+}
 
+.tabelka2
+{
+position:absolute;
+top: 100%;
+right: 50%;
+width:150px;
+padding:5px;
+}
+
+
+.container_zdjecie
+{
+position: relative;
+}
+
+.back{
+position:absolute;
+
+right: 80%;
 
 }
