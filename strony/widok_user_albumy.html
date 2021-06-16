@@ -122,7 +122,7 @@
 
 {% for Galeria in posts %}
 
-<a href="{% url 'fotopage' slug=Galeria.slug %}" ><img src="{{Galeria.zdjecie.url}}" method="get" alt="Tekst alternatywny" width= "x" height="y"></a>
+<a href="{% url 'fotopage' slug=Galeria.albumy.slug %}" ><img src="{{Galeria.albumy.zdjecie.url}}" method="get" alt="Tekst alternatywny" width= "x" height="y"></a>
 
 
 {% endfor %}

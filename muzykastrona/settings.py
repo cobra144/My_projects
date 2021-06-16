@@ -50,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+
 ]
 
 ROOT_URLCONF = 'muzykastrona.urls'
@@ -131,3 +133,7 @@ STATIC_URL = '/..static/'
 
 MEDIA_URL = '/..media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_REDIRECT_URL = 'searchbar'
+LOGOUT_REDIRECT_URL = 'login'
+CSRF_COOKIE_DOMAIN = '127.0.0.1'

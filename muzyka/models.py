@@ -2,6 +2,12 @@ from django.db import models
 from django.urls import reverse
 from exiffield.fields import ExifField
 from exiffield.getters import exifgetter
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+
+
 
 class Category(models.Model):
     objects = None
@@ -16,6 +22,8 @@ class Category(models.Model):
 
 
 class Galeria(models.Model):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     objects = None
     category = models.ForeignKey(Category, on_delete=models.CASCADE,default=1,related_name="categories_cat")
     nazwa = models.CharField(max_length=32)
@@ -91,6 +99,8 @@ class Galeria(models.Model):
     def get_absolute_url(self):
        return reverse('story_detail',args=[self.slug,])
 
+    def is_valid(self):
+        pass
 
 
 
@@ -108,3 +118,23 @@ class UploadedImage(models.Model):
         },
     )
 
+
+class Profile(models.Model):
+    objects = None
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=500, blank=True)
+    location = models.CharField(max_length=30, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+    photo_user = models.ImageField(upload_to="media", blank=True)
+
+
+@receiver(post_save, sender=User)
+def update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()
+
+class UlubionyAlbum(models.Model):
+    objects = None
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    albumy = models.ForeignKey(Galeria, on_delete=models.CASCADE, null=True)
