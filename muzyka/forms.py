@@ -36,3 +36,8 @@ class QuestionForm(ModelForm):
         widgets = {
             'question': Textarea(attrs={'cols': 40, 'rows': 20}),
         }
+
+class dodaj_do_kolekcji(ModelForm):
+    class Meta:
+        model = UlubionyAlbum
+        fields = ['user','albumy']

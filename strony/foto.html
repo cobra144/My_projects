@@ -93,59 +93,31 @@
 <div class="zdjecie">
 
 
+
+    {% block content %}
+
+<form action ="{% url 'fotopage' slug=slug %}" method="post">
+    {% csrf_token %}
+    <button name="dodaj" class="myButton" type="submit">Dodaj</button>
+</form>
+<br>
+    <form action ="{% url 'fotopage' slug=slug %}" method="post">
+    {% csrf_token %}
+    <button name="usun" class="myButton2" type="submit" >Usuń</button>
+
+</form>
+{% endblock %}
+
+
+
 <center>
     <p style="font-size: 150%;"> Albumów: {{post.nazwa}}</p>
 </center>
 
-<div class="tabelka">
-
-
-<center>
-    <table width="auto" >
-  <tr>
-   <td nowrap="nowrap"><img  src="{% static 'camera.png' %}" width="40%"  ></td>
-    <td nowrap="nowrap">{{post.firma}} <p> </p> {{post.camera}}</td>
-
-  </tr>
-  <tr>
-    <td nowrap="nowrap"><img  src="{% static 'przesl.png' %}" width="40%"  ></td>
-    <td nowrap="nowrap">{{post.Fnum}}</td>
-  </tr>
-  <tr>
-    <td nowrap="nowrap"><img  src="{% static 'ogniskowa.png' %}" width="40%"  ></td>
-    <td nowrap="nowrap">{{post.ogniskowa}}</td>
-  </tr>
-
-
-</table>
-</div>
-
-
-<div class="tabelka2">
 
 
 
-    <table width="auto" >
 
-  <tr>
-    <td nowrap="nowrap"><img  src="{% static 'ekspozycja.png' %}" width="50%"  ></td>
-    <td nowrap="nowrap">{{post.ekspozycja}}</td>
-  </tr>
-  <tr>
-    <td nowrap="nowrap"><img  src="{% static 'data.png' %}" width="50%"  ></td>
-    <td nowrap="nowrap">{{kiedy|slice:":10"}}</td>
-  </tr>
-  <tr>
-    <td nowrap="nowrap"><img  src="{% static 'iso.png' %}" width="50%"  ></td>
-    <td nowrap="nowrap">{{post.iso}}</td>
-  </tr>
-
-</table>
-
-    <button type="button" onclick="alert('{{post.nazwa.id}}')">Click Me!</button>
-
-</center>
-</div>
 </div>
 
 

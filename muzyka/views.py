@@ -152,12 +152,44 @@ def post_list_widok_usera(request, category_slug=None):
 
 def fotopage(request, slug, category_slug=None):
     post = Galeria.objects.get(slug=slug)
+    slug=post.slug
     kiedy = post.data
     kiedy = kiedy.replace(':', '-')
-
     category = None
     categories = Category.objects.all()
     story = Galeria.objects.all()
+    if request.method == 'POST':
+        if 'dodaj' in request.POST:
+            if UlubionyAlbum.objects.filter(albumy=post).exists():
+                return render(request, 'foto.html', {'post': post,
+
+                                                     'categories': categories,
+                                                     'category': category,
+                                                     'kiedy': kiedy,
+                                                     'story': story,
+                                                     'slug': slug})
+
+
+            else:
+                create=UlubionyAlbum.objects.create(user= User.objects.get(pk=request.user.id),albumy=post)
+                create.save()
+
+        if 'usun' in request.POST:
+            if UlubionyAlbum.objects.filter(albumy=post).exists():
+                instance = UlubionyAlbum.objects.get(albumy=post)
+                instance.delete()
+
+            else:
+                return render(request, 'foto.html', {'post': post,
+
+                                                     'categories': categories,
+                                                     'category': category,
+                                                     'kiedy': kiedy,
+                                                     'story': story,
+                                                     'slug': slug})
+
+
+
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         story = story.filter(category=category)
@@ -167,7 +199,8 @@ def fotopage(request, slug, category_slug=None):
                                          'categories': categories,
                                          'category': category,
                                          'kiedy': kiedy,
-                                         'story': story, })
+                                         'story': story,
+                                         'slug': slug})
 
 
 def metadane(request):
