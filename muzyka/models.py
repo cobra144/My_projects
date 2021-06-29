@@ -23,7 +23,7 @@ class Category(models.Model):
 
 class Galeria(models.Model):
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     objects = None
     category = models.ForeignKey(Category, on_delete=models.CASCADE,default=1,related_name="categories_cat")
     nazwa = models.CharField(max_length=32)
@@ -31,68 +31,15 @@ class Galeria(models.Model):
     rok_powstania = models.DateField(null=False, blank=False)
     zdjecie = models.ImageField(upload_to="media", blank=True)
     slug = models.AutoField(primary_key=True)
-    camera = models.CharField(
-        editable=False,
-        max_length=100,
-    )
-    Xres = models.CharField(
-        editable=False,
-        max_length=100,
-    )
-    Yres = models.CharField(
-        editable=False,
-        max_length=100,
-    )
-    Fnum = models.CharField(
-        editable=False,
-        max_length=100,
-    )
-    ogniskowa = models.CharField(
-        editable=False,
-        max_length=100,
-    )
-    ekspozycja = models.CharField(
-        editable=False,
-        max_length=100,
-    )
-    firma = models.CharField(
-        editable=False,
-        max_length=100,
-    )
-    data = models.CharField(
-        editable=False,
-        max_length=100,
-    )
-    iso = models.CharField(
-        editable=False,
-        max_length=100,
-    )
-
-    exif = ExifField(
-        source='zdjecie',
-        denormalized_fields={
-            'camera': exifgetter('Model'),
-            'Xres': exifgetter('ExifImageWidth'),
-            'Yres': exifgetter('ExifImageHeight'),
-            'Fnum': exifgetter('FNumber'),
-            'ogniskowa': exifgetter('FocalLength'),
-            'ekspozycja': exifgetter('ExposureTime'),
-            'firma': exifgetter('Manufacturer'),
-            'data': exifgetter('DateTimeOriginal'),
-            'iso': exifgetter('ISO'),
 
 
-
-        },
-    )
     class Meta:
         ordering=('-nazwa',)
 
     def __str__(self):
         return self.nazwa
 
-    def ciag(self):
-        return str(self.data).replace(':', '-')
+
 
 
 
@@ -138,3 +85,9 @@ class UlubionyAlbum(models.Model):
     objects = None
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     albumy = models.ForeignKey(Galeria, on_delete=models.CASCADE, null=True)
+
+class OcenaAlbumu(models.Model):
+    objects = None
+    ocena = models.IntegerField(blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    album = models.ForeignKey(Galeria, on_delete=models.CASCADE, null=True)

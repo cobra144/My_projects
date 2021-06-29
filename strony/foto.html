@@ -19,6 +19,7 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
      <title>Document</title>
          <link rel="stylesheet" type="text/css"
@@ -62,6 +63,7 @@
     aria-label="Search" type="text" name="q" value="{{ request.GET.q }}">
 </form>
 
+
     </ul>
   </div>
 </nav>
@@ -83,7 +85,7 @@
     </center>
     <center>
 
-        <a href="{{post.zdjecie.url}}" target="_blank"><img src="{{post.zdjecie.url}}" method="get" alt="Tekst alternatywny" width= "50%" >
+        <a href="{{post.zdjecie.url}}" target="_blank"><img  src="{{post.zdjecie.url}}" method="get" alt="Tekst alternatywny" width= "50%" >
         </a>
     </center>
     <br>
@@ -95,30 +97,101 @@
 
 
     {% block content %}
+    {% if czy_user_ma_album %}
 
-<form action ="{% url 'fotopage' slug=slug %}" method="post">
-    {% csrf_token %}
-    <button name="dodaj" class="myButton" type="submit">Dodaj</button>
-</form>
-<br>
-    <form action ="{% url 'fotopage' slug=slug %}" method="post">
-    {% csrf_token %}
-    <button name="usun" class="myButton2" type="submit" >Usuń</button>
+    {% else %}
+        <form action ="{% url 'fotopage' slug=slug %}" method="post">
+        {% csrf_token %}
+        <button name="dodaj" class="myButton" type="submit">Dodaj</button>
+        </form>
+    {% endif %}
+    <br>
+    {% if czy_user_ma_album %}
+        <form action ="{% url 'fotopage' slug=slug %}" method="post">
+        {% csrf_token %}
+        <button name="usun" class="myButton2" type="submit" >Usuń</button>
+    {% else %}
 
+    {% endif %}
 </form>
+
 {% endblock %}
 
 
 
+
+    {% block content2 %}
+    {% if ocenionoNa %}
+            <form action ="{% url 'fotopage' slug=slug %}" method="post">
+        {% csrf_token %}
+    <div class="rating">
+    <span class="rating__result"></span>
+    <button class="rating__star far fa-star gwiazdka"  id="first" name="first"> </button>
+    <button class="rating__star far fa-star gwiazdka"  id="second" name="second"> </button>
+    <button class="rating__star far fa-star gwiazdka"  id="third" name="third"> </button>
+    <button class="rating__star far fa-star gwiazdka"  id="fourth" name="fourth"> </button>
+    <button class="rating__star far fa-star gwiazdka"  id="fifth" name="fifth"> </button>
+    </div>
+    </form>
+    {% else %}
+    <form action ="{% url 'fotopage' slug=slug %}" method="post">
+        {% csrf_token %}
+    <div class="rating">
+    <span class="rating__result"></span>
+    <button class="rating__star far fa-star gwiazdka"  id="first" name="first"> </button>
+    <button class="rating__star far fa-star gwiazdka"  id="second" name="second"> </button>
+    <button class="rating__star far fa-star gwiazdka"  id="third" name="third"> </button>
+    <button class="rating__star far fa-star gwiazdka"  id="fourth" name="fourth"> </button>
+    <button class="rating__star far fa-star gwiazdka"  id="fifth" name="fifth"> </button>
+    </div>
+    </form>
+
+    {% endif %}
+{% endblock %}
+
+
 <center>
-    <p style="font-size: 150%;"> Albumów: {{post.nazwa}}</p>
+    <p style="font-size: 150%;"> Album: {{post.nazwa}}</p>
 </center>
 
 
+<center>
+    <p style="font-size: 150%;"> Opis: {{post.opis}}</p>
+</center>
 
-
+<center>
+<p style="font-size: 150%;"> Średnia ocena: {{sredniaOcena.ocena__avg}}</p>
+</center>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -139,6 +212,61 @@ function myFunction() {
 }
 </script>
 
+
+
+<script>
+if ({{ dodaj_ocenę.ocena }}==5){
+
+document.getElementById("first").classList.remove('far');
+document.getElementById("first").classList.add('fas');
+document.getElementById("second").classList.remove('far');
+document.getElementById("second").classList.add('fas');
+document.getElementById("third").classList.remove('far');
+document.getElementById("third").classList.add('fas');
+document.getElementById("fourth").classList.remove('far');
+document.getElementById("fourth").classList.add('fas');
+document.getElementById("fifth").classList.remove('far');
+document.getElementById("fifth").classList.add('fas');}
+
+else if ({{ dodaj_ocenę.ocena }}==4){
+document.getElementById("first").classList.remove('far');
+document.getElementById("first").classList.add('fas');
+document.getElementById("second").classList.remove('far');
+document.getElementById("second").classList.add('fas');
+document.getElementById("third").classList.remove('far');
+document.getElementById("third").classList.add('fas');
+document.getElementById("fourth").classList.remove('far');
+document.getElementById("fourth").classList.add('fas');}
+
+else if ({{ dodaj_ocenę.ocena }}==3){
+document.getElementById("first").classList.remove('far');
+document.getElementById("first").classList.add('fas');
+document.getElementById("second").classList.remove('far');
+document.getElementById("second").classList.add('fas');
+document.getElementById("third").classList.remove('far');
+document.getElementById("third").classList.add('fas');}
+
+else if ({{ dodaj_ocenę.ocena }}==2){
+document.getElementById("first").classList.remove('far');
+document.getElementById("first").classList.add('fas');
+document.getElementById("second").classList.remove('far');
+document.getElementById("second").classList.add('fas');}
+
+else if ({{ dodaj_ocenę.ocena }}==1){
+document.getElementById("first").classList.remove('far');
+document.getElementById("first").classList.add('fas');}
+
+
+
+executeRating(ratingStars, ratingResult);
+
+
+
+
+
+
+
+</script>
 </body>
 </html>
 
