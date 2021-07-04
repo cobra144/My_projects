@@ -7,48 +7,41 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-
-
 class Category(models.Model):
     objects = None
-    name=models.CharField(max_length=150,db_index=True)
-    slug=models.SlugField(unique=True)
+    name = models.CharField(max_length=150, db_index=True)
+    slug = models.SlugField(unique=True)
+
     class Meta:
-        ordering=('-name',)
+        ordering = ('-name',)
+
     def __str__(self):
         return self.name
+
     def get_absolute_url(self):
         return reverse('story_by_category', args=[self.slug])
 
 
 class Galeria(models.Model):
-
-
     objects = None
-    category = models.ForeignKey(Category, on_delete=models.CASCADE,default=1,related_name="categories_cat")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1, related_name="categories_cat")
     nazwa = models.CharField(max_length=32)
     opis = models.TextField(default='')
     rok_powstania = models.DateField(null=False, blank=False)
     zdjecie = models.ImageField(upload_to="media", blank=True)
     slug = models.AutoField(primary_key=True)
 
-
     class Meta:
-        ordering=('-nazwa',)
+        ordering = ('-nazwa',)
 
     def __str__(self):
         return self.nazwa
 
-
-
-
-
     def get_absolute_url(self):
-       return reverse('story_detail',args=[self.slug,])
+       return reverse('story_detail', args=[self.slug])
 
     def is_valid(self):
         pass
-
 
 
 class UploadedImage(models.Model):
@@ -81,10 +74,12 @@ def update_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
     instance.profile.save()
 
+
 class UlubionyAlbum(models.Model):
     objects = None
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     albumy = models.ForeignKey(Galeria, on_delete=models.CASCADE, null=True)
+
 
 class OcenaAlbumu(models.Model):
     objects = None
