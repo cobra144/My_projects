@@ -96,28 +96,21 @@
 
 
 
-    {% block content %}
-    {% if czy_user_ma_album %}
 
-    {% else %}
+
+<div id="dodajfoto">
         <form action ="{% url 'fotopage' slug=slug %}" method="post">
         {% csrf_token %}
-        <button name="dodaj" class="myButton" type="submit">Dodaj</button>
+        <button name="dodaj" class="myButton" id="dodaj" type="submit">Dodaj</button>
         </form>
-    {% endif %}
+</div>
     <br>
-    {% if czy_user_ma_album %}
+<div id="usunfoto">
         <form action ="{% url 'fotopage' slug=slug %}" method="post">
         {% csrf_token %}
-        <button name="usun" class="myButton2" type="submit" >Usuń</button>
-    {% else %}
-
-    {% endif %}
-</form>
-
-{% endblock %}
-
-
+        <button name="usun" class="myButton2" id="usun" type="submit" >Usuń</button>
+        </form>
+</div>
 
 
     {% block content2 %}
@@ -150,6 +143,15 @@
 {% endblock %}
 
 
+
+
+
+
+
+
+
+
+
 <center>
     <p style="font-size: 150%;"> Album: {{post.nazwa}}</p>
 </center>
@@ -161,6 +163,9 @@
 
 <center>
 <p style="font-size: 150%;"> Średnia ocena: {{sredniaOcena.ocena__avg}}</p>
+
+
+
 </center>
 
 </div>
@@ -190,7 +195,17 @@
 
 
 
+<script>
+if ({{ args.mytext }}==2){
+document.getElementById("usun").style.display = "none";
+}
 
+else if ({{ args.mytext }}==1){
+document.getElementById("dodaj").style.display = "none";
+}
+
+
+</script>
 
 
 
@@ -215,8 +230,8 @@ function myFunction() {
 
 
 <script>
-if ({{ dodaj_ocenę.ocena }}==5){
 
+if ({{ dodaj_ocenę.ocena }}==5){
 document.getElementById("first").classList.remove('far');
 document.getElementById("first").classList.add('fas');
 document.getElementById("second").classList.remove('far');
@@ -256,17 +271,16 @@ else if ({{ dodaj_ocenę.ocena }}==1){
 document.getElementById("first").classList.remove('far');
 document.getElementById("first").classList.add('fas');}
 
-
-
 executeRating(ratingStars, ratingResult);
 
 
-
-
-
-
-
 </script>
+
+
+
+
+
+
 </body>
 </html>
 
