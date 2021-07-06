@@ -25,7 +25,8 @@ class Category(models.Model):
 class Galeria(models.Model):
     objects = None
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1, related_name="categories_cat")
-    nazwa = models.CharField(max_length=32)
+    zespol = models.CharField(max_length=60,default='')
+    nazwa = models.CharField(max_length=60)
     opis = models.TextField(default='')
     rok_powstania = models.DateField(null=False, blank=False)
     zdjecie = models.ImageField(upload_to="media", blank=True)

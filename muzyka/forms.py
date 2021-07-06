@@ -32,7 +32,7 @@ class LoginForm(forms.Form):
 class QuestionForm(ModelForm):
     class Meta:
         model = Galeria
-        fields = ['nazwa','category','rok_powstania','zdjecie','opis']
+        fields = ['zespol', 'nazwa', 'category', 'rok_powstania', 'zdjecie', 'opis']
         widgets = {
             'question': Textarea(attrs={'cols': 40, 'rows': 20}),
         }
