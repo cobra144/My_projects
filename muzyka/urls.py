@@ -1,8 +1,14 @@
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
 from django.contrib.auth import views as auth_views
+from rest_framework import routers
+
+from .views import Apiview
+
+router = routers.DefaultRouter()
+router.register('muzyka',Apiview,basename='api_muzyka')
 
 urlpatterns = [
                   path('', views.post_list, name='searchbar'),
@@ -20,5 +26,5 @@ urlpatterns = [
                   path('logout/', views.logoutUser, name="logout"),
                   path('error/', views.error_page, name="error"),
                   path('widok_user_albumy/', views.PostListWidokUsera, name="widok_user_albumy"),
-
+                  path('',include(router.urls))
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

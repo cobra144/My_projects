@@ -1,11 +1,21 @@
 from django.db.models import Q, Count, Avg
 from django.shortcuts import get_object_or_404
+from rest_framework import viewsets
+from rest_framework.viewsets import ModelViewSet
+
 from .forms import SignUpForm
 from .models import *
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 from . import forms
+from .serializers import MuzykaSerializer
+
+
+class Apiview(viewsets.ModelViewSet):
+    serializer_class=MuzykaSerializer
+    queryset = Galeria.objects.all()
+    filterset_fields = ('slug','nazwa','rok_powstania','opis')
 
 
 def error_page(request):
