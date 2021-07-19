@@ -246,7 +246,7 @@ def kategorie(request, category_slug=None):
                                               })
 
 
-def story_detail(request, slug):
+def paginacja(request, slug):
     story = Galeria.objects.get(slug=slug)
     return render(request, 'foto.html', {'story': story})
 

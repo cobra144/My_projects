@@ -39,7 +39,7 @@ class Galeria(models.Model):
         return self.nazwa
 
     def get_absolute_url(self):
-       return reverse('story_detail', args=[self.slug])
+       return reverse('paginacja', args=[self.slug])
 
     def is_valid(self):
         pass
