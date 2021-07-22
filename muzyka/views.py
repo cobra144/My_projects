@@ -1,8 +1,7 @@
+from django.contrib.auth.views import LoginView
 from django.db.models import Q, Count, Avg
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
-from rest_framework.viewsets import ModelViewSet
-
 from .forms import SignUpForm
 from .models import *
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -23,7 +22,6 @@ def error_page(request):
 
 
 def post_list(request, category_slug=None):
-    try:
         posts_list = Galeria.objects.all()
         query = request.GET.get('q')
         if query:
@@ -52,8 +50,7 @@ def post_list(request, category_slug=None):
             'categories_ile': categories_ile}
 
         return render(request, "search.html", context)
-    except Exception as ex:
-        return redirect(reverse('error'))
+
 
 
 def post_list_bez_user(request, category_slug=None):
@@ -125,103 +122,105 @@ def PostListWidokUsera(request, category_slug=None):
 
 
 def fotopage(request, slug):
-    post = Galeria.objects.get(slug=slug)
-    slug = post.slug
-    category = None
-    categories = Category.objects.all()
-    story = Galeria.objects.all()
-    args = dict()
-    args['mytext'] = 2
-    if OcenaAlbumu.objects.filter(album=post).filter(user=request.user.id):
-        ocenionoNa = True
-        sredniaOcena = OcenaAlbumu.objects.filter(album=post).aggregate(Avg('ocena'))
-        dodaj_ocene = OcenaAlbumu.objects.filter(album=post).filter(user=request.user.id)
-        dodaj_ocene = dodaj_ocene.get
+    try:
+        post = Galeria.objects.get(slug=slug)
+        slug = post.slug
+        category = None
+        categories = Category.objects.all()
+        story = Galeria.objects.all()
+        args = dict()
         args['mytext'] = 2
-        if UlubionyAlbum.objects.filter(albumy=post).filter(user=request.user.id):
-            args['mytext'] = 1
-        if request.method == 'POST':
-            if 'first' in request.POST:
-                OcenaAlbumu.objects.filter(user=User.objects.get(pk=request.user.id), album=post).update(ocena=1)
-            elif 'second' in request.POST:
-                OcenaAlbumu.objects.filter(user=User.objects.get(pk=request.user.id), album=post).update(ocena=2)
-            elif 'third' in request.POST:
-                OcenaAlbumu.objects.filter(user=User.objects.get(pk=request.user.id), album=post).update(ocena=3)
-            elif 'fourth' in request.POST:
-                OcenaAlbumu.objects.filter(user=User.objects.get(pk=request.user.id), album=post).update(ocena=4)
-            elif 'fifth' in request.POST:
-                OcenaAlbumu.objects.filter(user=User.objects.get(pk=request.user.id), album=post).update(ocena=5)
-            if 'usun' in request.POST:
-                if UlubionyAlbum.objects.filter(albumy=post).exists():
-                    instance = UlubionyAlbum.objects.filter(albumy=post)
-                    instance.delete()
-                    args['mytext'] = 2
-            else:
-                if request.method == 'POST':
-                    if 'dodaj' in request.POST:
-                        if UlubionyAlbum.objects.filter(albumy=post).filter(user=request.user.id):
-                            pass
-                        else:
-                            create = UlubionyAlbum.objects.create(user=User.objects.get(pk=request.user.id), albumy=post)
-                            create.save()
-                            args['mytext'] = 1
-        return render(request, 'foto.html', {'post': post,
-                                             'categories': categories,
-                                             'category': category,
-                                             'story': story,
-                                             'slug': slug,
-                                             'ocenionoNa': ocenionoNa,
-                                             'dodaj_ocene': dodaj_ocene,
-                                             'sredniaOcena': sredniaOcena,
-                                             'args': args})
-    else:
-        ocenionoNa = True
-        sredniaOcena = OcenaAlbumu.objects.filter(album=post).aggregate(Avg('ocena'))
-        dodaj_ocene = OcenaAlbumu.objects.filter(album=post).filter(user=request.user.id)
-        dodaj_ocene = dodaj_ocene.get
-        args['mytext'] = 2
-        if UlubionyAlbum.objects.filter(albumy=post).filter(user=request.user.id):
-            args['mytext'] = 1
-        if request.method == 'POST':
-            if 'first' in request.POST:
-                create = OcenaAlbumu.objects.create(user=User.objects.get(pk=request.user.id), album=post, ocena=1)
-                create.save()
-            elif 'second' in request.POST:
-                create = OcenaAlbumu.objects.create(user=User.objects.get(pk=request.user.id), album=post, ocena=2)
-                create.save()
-            elif 'third' in request.POST:
-                create = OcenaAlbumu.objects.create(user=User.objects.get(pk=request.user.id), album=post, ocena=3)
-                create.save()
-            elif 'fourth' in request.POST:
-                create = OcenaAlbumu.objects.create(user=User.objects.get(pk=request.user.id), album=post, ocena=4)
-                create.save()
-            elif 'fifth' in request.POST:
-                create = OcenaAlbumu.objects.create(user=User.objects.get(pk=request.user.id), album=post, ocena=5)
-                create.save()
-            if 'usun' in request.POST:
-                if UlubionyAlbum.objects.filter(albumy=post).exists():
-                    instance = UlubionyAlbum.objects.filter(albumy=post)
-                    instance.delete()
-                    args['mytext'] = 2
-            else:
-                if request.method == 'POST':
-                    if 'dodaj' in request.POST:
-                        if UlubionyAlbum.objects.filter(albumy=post).filter(user=request.user.id):
-                            pass
-                        else:
-                            create = UlubionyAlbum.objects.create(user=User.objects.get(pk=request.user.id), albumy=post)
-                            create.save()
-                            args['mytext'] = 1
-        return render(request, 'foto.html', {'post': post,
-                                             'categories': categories,
-                                             'category': category,
-                                             'story': story,
-                                             'slug': slug,
-                                             'ocenionoNa': ocenionoNa,
-                                             'dodaj_ocene': dodaj_ocene,
-                                             'sredniaOcena': sredniaOcena,
-                                             'args': args})
-
+        if OcenaAlbumu.objects.filter(album=post).filter(user=request.user.id):
+            ocenionoNa = True
+            sredniaOcena = OcenaAlbumu.objects.filter(album=post).aggregate(Avg('ocena'))
+            dodaj_ocene = OcenaAlbumu.objects.filter(album=post).filter(user=request.user.id)
+            dodaj_ocene = dodaj_ocene.get
+            args['mytext'] = 2
+            if UlubionyAlbum.objects.filter(albumy=post).filter(user=request.user.id):
+                args['mytext'] = 1
+            if request.method == 'POST':
+                if 'first' in request.POST:
+                    OcenaAlbumu.objects.filter(user=User.objects.get(pk=request.user.id), album=post).update(ocena=1)
+                elif 'second' in request.POST:
+                    OcenaAlbumu.objects.filter(user=User.objects.get(pk=request.user.id), album=post).update(ocena=2)
+                elif 'third' in request.POST:
+                    OcenaAlbumu.objects.filter(user=User.objects.get(pk=request.user.id), album=post).update(ocena=3)
+                elif 'fourth' in request.POST:
+                    OcenaAlbumu.objects.filter(user=User.objects.get(pk=request.user.id), album=post).update(ocena=4)
+                elif 'fifth' in request.POST:
+                    OcenaAlbumu.objects.filter(user=User.objects.get(pk=request.user.id), album=post).update(ocena=5)
+                if 'usun' in request.POST:
+                    if UlubionyAlbum.objects.filter(albumy=post).exists():
+                        instance = UlubionyAlbum.objects.filter(albumy=post)
+                        instance.delete()
+                        args['mytext'] = 2
+                else:
+                    if request.method == 'POST':
+                        if 'dodaj' in request.POST:
+                            if UlubionyAlbum.objects.filter(albumy=post).filter(user=request.user.id):
+                                pass
+                            else:
+                                create = UlubionyAlbum.objects.create(user=User.objects.get(pk=request.user.id), albumy=post)
+                                create.save()
+                                args['mytext'] = 1
+            return render(request, 'foto.html', {'post': post,
+                                                 'categories': categories,
+                                                 'category': category,
+                                                 'story': story,
+                                                 'slug': slug,
+                                                 'ocenionoNa': ocenionoNa,
+                                                 'dodaj_ocene': dodaj_ocene,
+                                                 'sredniaOcena': sredniaOcena,
+                                                 'args': args})
+        else:
+            ocenionoNa = True
+            sredniaOcena = OcenaAlbumu.objects.filter(album=post).aggregate(Avg('ocena'))
+            dodaj_ocene = OcenaAlbumu.objects.filter(album=post).filter(user=request.user.id)
+            dodaj_ocene = dodaj_ocene.get
+            args['mytext'] = 2
+            if UlubionyAlbum.objects.filter(albumy=post).filter(user=request.user.id):
+                args['mytext'] = 1
+            if request.method == 'POST':
+                if 'first' in request.POST:
+                    create = OcenaAlbumu.objects.create(user=User.objects.get(pk=request.user.id), album=post, ocena=1)
+                    create.save()
+                elif 'second' in request.POST:
+                    create = OcenaAlbumu.objects.create(user=User.objects.get(pk=request.user.id), album=post, ocena=2)
+                    create.save()
+                elif 'third' in request.POST:
+                    create = OcenaAlbumu.objects.create(user=User.objects.get(pk=request.user.id), album=post, ocena=3)
+                    create.save()
+                elif 'fourth' in request.POST:
+                    create = OcenaAlbumu.objects.create(user=User.objects.get(pk=request.user.id), album=post, ocena=4)
+                    create.save()
+                elif 'fifth' in request.POST:
+                    create = OcenaAlbumu.objects.create(user=User.objects.get(pk=request.user.id), album=post, ocena=5)
+                    create.save()
+                if 'usun' in request.POST:
+                    if UlubionyAlbum.objects.filter(albumy=post).exists():
+                        instance = UlubionyAlbum.objects.filter(albumy=post)
+                        instance.delete()
+                        args['mytext'] = 2
+                else:
+                    if request.method == 'POST':
+                        if 'dodaj' in request.POST:
+                            if UlubionyAlbum.objects.filter(albumy=post).filter(user=request.user.id):
+                                pass
+                            else:
+                                create = UlubionyAlbum.objects.create(user=User.objects.get(pk=request.user.id), albumy=post)
+                                create.save()
+                                args['mytext'] = 1
+            return render(request, 'foto.html', {'post': post,
+                                                 'categories': categories,
+                                                 'category': category,
+                                                 'story': story,
+                                                 'slug': slug,
+                                                 'ocenionoNa': ocenionoNa,
+                                                 'dodaj_ocene': dodaj_ocene,
+                                                 'sredniaOcena': sredniaOcena,
+                                                 'args': args})
+    except Exception as ex:
+        return redirect(reverse('error'))
 
 def metadane(request):
     fot = UploadedImage.objects.all()
@@ -289,3 +288,25 @@ def get_question(request):
 def logoutUser(request):
     logout(request)
     return redirect('login')
+
+def znajomiStrona(request):
+    profile = Profile.objects.all()
+    query = request.GET.get('q')
+    if query:
+        posts_list = Galeria.objects.filter(
+            Q(nazwa__icontains=query) | Q(opis__icontains=query)
+        ).distinct()
+    context = {
+        'profile': profile
+        }
+
+    return render(request, "znajomi.html", context)
+
+
+def loginUser(request):
+    logout(request)
+    return redirect('login')
+
+class WebpageLoginView(LoginView):
+    def redirected(request):
+        return redirect('login')

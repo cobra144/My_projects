@@ -21,10 +21,11 @@ urlpatterns = [
                   path('foto/<slug:slug>', views.paginacja, name='paginacja'),
                   path('pagination/', views.paginacja, name='pagination'),
                   path('register/', views.register, name='register'),
-                  path('login/', auth_views.LoginView.as_view(template_name="login.html",), name="login",),
+                  path('login/', auth_views.LoginView.as_view(template_name="login.html",), name="login"),
                   path('formularz/', views.get_question, name='formularz'),
                   path('logout/', views.logoutUser, name="logout"),
                   path('error/', views.error_page, name="error"),
                   path('widok_user_albumy/', views.PostListWidokUsera, name="widok_user_albumy"),
+                  path('znajomi/', views.znajomiStrona, name="znajomi"),
                   path('',include(router.urls))
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

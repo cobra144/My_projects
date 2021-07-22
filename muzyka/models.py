@@ -87,3 +87,8 @@ class OcenaAlbumu(models.Model):
     ocena = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     album = models.ForeignKey(Galeria, on_delete=models.CASCADE, null=True)
+
+class Znajomi(models.Model):
+    objects = None
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='main_user')
+    friend = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='friend')

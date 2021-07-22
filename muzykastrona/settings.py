@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 
 
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -162,3 +164,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_REDIRECT_URL = 'searchbar'
 LOGOUT_REDIRECT_URL = 'login'
 CSRF_COOKIE_DOMAIN = '127.0.0.1'
+
